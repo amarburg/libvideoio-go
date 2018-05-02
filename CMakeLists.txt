@@ -87,7 +87,7 @@ if( NOT FIPS_IMPORT )
 
 	if( FIPS_UNITTESTS )
 		message("** Will run unit tests")
-	  fips_add_subdirectory( test/unit/ )
+	  #fips_add_subdirectory( test/unit/ )
 	endif()
 
 	fips_finish()
