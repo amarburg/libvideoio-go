@@ -1,5 +1,10 @@
+workspace:
+  base: /code
+
 pipeline:
   build:
+    environment:
+      GOPATH: /code/go
     image: amarburg/lsdslam-dev-host:latest
     commands:
           - apt-get update && apt-get install -y ca-certificates golang
