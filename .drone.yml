@@ -4,7 +4,8 @@ workspace:
 pipeline:
   build:
     environment:
-      GOPATH: /code/go
+      - GOPATH=/code/go
+      - CGO=1
     image: amarburg/lsdslam-dev-host:latest
     commands:
           - apt-get update && apt-get install -y software-properties-common
