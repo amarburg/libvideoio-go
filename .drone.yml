@@ -7,7 +7,8 @@ pipeline:
       GOPATH: /code/go
     image: amarburg/lsdslam-dev-host:latest
     commands:
+          - apt-get update && apt-get install -y software-properties-common
           - add-apt-repository ppa:longsleep/golang-backports
-          - apt-get update && apt-get install -y ca-certificates golang-go libavformat-dev
+          - apt-get install -y golang-go libavformat-dev
           - ./fips set config linux-make-unittest
           - ./fips build
