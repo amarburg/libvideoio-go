@@ -57,7 +57,8 @@ find_package(OpenCV COMPONENTS ${OPENCV_COMPONENTS} REQUIRED)
 # endif()
 
 # Find the Go library
-#set( GO_LIB_PATH  ) # )
+set( GOPATH $ENV{GOPATH} )
+set( GOLIB_PATH ${GOPATH}/src/github.com/amarburg/cgo-lazyquicktime )
 
 # ## Set global include paths
 fips_include_directories(
@@ -68,6 +69,24 @@ fips_include_directories(
 
 link_directories(
 	$ENV{GOPATH}/src/github.com/amarburg/cgo-lazyquicktime
+)
+
+set( GO_HEADER  ${GOLIB_PATH}/liblazyquicktime.h )
+set( GO_LIBRARY ${GOLIB_PATH}/liblazyquicktime.so )
+
+message( ${GO_HEADER} )
+
+
+## Custom targets to build Golang extension
+add_custom_command(
+	OUTPUT ${GO_LIBRARY}
+  PRE_BUILD
+	COMMAND go get github.com/amarburg/cgo-lazyquicktime
+	COMMAND cd ${GOPATH}/src/github.com/amarburg/cgo-lazyquicktime/ && make
+)
+
+add_custom_target(liblazyquicktime
+  DEPENDS ${GO_LIBRARY}
 )
 
 
