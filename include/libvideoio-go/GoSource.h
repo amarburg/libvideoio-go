@@ -46,6 +46,7 @@ protected:
   ImageBuffer _buffer;
   cv::Mat _latest;
 
+  int _latestFrameNum;
 
 };
 

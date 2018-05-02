@@ -11,12 +11,14 @@ using std::string;
 
 
 GoSource::GoSource( void )
-: _id(-1)
+: _id(-1),
+  _latestFrameNum(-1)
 {
 }
 
 GoSource::GoSource( const std::string &path )
-: _id(-1)
+: _id(-1),
+  _latestFrameNum(-1)
 {
   open(path);
 }
@@ -32,8 +34,9 @@ GoSource::~GoSource()
 bool GoSource::open( const std::string &path )
 {
   // Well isn't this ugly..
-  std::vector<char> chars(path.c_str(), path.c_str() + path.size() + 1u);
-  _id = OpenFrameSource( &chars[0] );
+  auto chars = strdup( path.c_str() );
+  _id = OpenFrameSource( chars );
+  free(chars);
 
   return (_id >= 0);
 }
@@ -51,11 +54,11 @@ int GoSource::numFrames( void ) const {
 }
 
 int GoSource::frameNum( void ) const {
-  return -1; //GoSourceFrameNum(_id);
+  return _latestFrameNum;
 }
 
 bool GoSource::grab( void ) {
-   if( FrameSourceNext( _id, &_buffer ) > 0 ) {
+   if( (_latestFrameNum = FrameSourceNext( _id, &_buffer )) > 0 ) {
     cv::Mat mat( _buffer.height, _buffer.width, CV_MAKETYPE(_buffer.depth, _buffer.channels), _buffer.data );
 
     // Doing this a priori now ... need to make it configurable (?)_
