@@ -5,11 +5,8 @@ pipeline:
   build:
     environment:
       - GOPATH=/code/go
-      - CGO=1
     image: amarburg/lsdslam-dev-host:latest
     commands:
-          - apt-get update && apt-get install -y software-properties-common
-          - add-apt-repository ppa:longsleep/golang-backports
-          - apt-get install -y golang-go libavformat-dev
+          - apt-get update && apt-get install -y golang-go
           - ./fips set config linux-make-unittest
           - ./fips build
