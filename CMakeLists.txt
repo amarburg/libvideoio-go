@@ -9,7 +9,7 @@ endif()
 
 # find_package( ZLIB REQUIRED )
 # find_package( Threads )
-# find_package( Boost COMPONENTS filesystem system REQUIRED)
+find_package( Boost COMPONENTS system REQUIRED)
 # find_package( Eigen3 REQUIRED )
 #
 # list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
@@ -106,7 +106,7 @@ if( NOT FIPS_IMPORT )
 
 	if( FIPS_UNITTESTS )
 		message("** Will run unit tests")
-	  #fips_add_subdirectory( test/unit/ )
+	  fips_add_subdirectory( test/ )
 	endif()
 
 	fips_finish()

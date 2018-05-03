@@ -7,6 +7,8 @@ fips_begin_module( videoio_go )
     ${VIDEOIO_GO_SRCS}
   )
 
+  fips_deps( videoio )
+
   fips_libs( ${OpenCV_LIBS} lazyquicktime )
 
   fips_include_directories(
