@@ -1,18 +1,13 @@
 
 #pragma once
 
-#include <opencv2/core/core.hpp>
-
-#include <vector>
-
-#include <g3log/g3log.hpp>
+#include <opencv2/core.hpp>
 
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 #include <boost/filesystem.hpp>
 namespace fs = boost::filesystem;
 
 #include "libvideoio/DataSource.h"
-
 #include "liblazyquicktime.h"
 
 namespace libvideoio {
