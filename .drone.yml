@@ -6,6 +6,7 @@ pipeline:
     environment:
       - GOPATH=/code/go
     image: amarburg/lsdslam-dev-host:latest
+    pull:  true
     commands:
           - apt-get update && apt-get install -y golang-go
           - ./fips set config linux-make-unittest
