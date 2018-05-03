@@ -74,7 +74,7 @@ int GoSource::getImage( int i, cv::Mat &mat ) {
     if( i == 0 ) {
       //
       mat = _latest;
-      return 0;
+      return frameNum();
     }
 
     return -1;
