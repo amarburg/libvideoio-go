@@ -1,36 +1,49 @@
 
 #include <string>
+#include <iostream>
 
 #include "libvideoio-go/FrameSet.h"
 
 namespace libvideoio {
 
 using std::string;
+using namespace std;
 
 FrameSet::FrameSet( void )
-  : _id(-1)
+  : GoSource(), _setId(-1)
 {
 }
 
 FrameSet::FrameSet( const std::string &path )
-  : _id(-1)
+  : GoSource(), _setId(-1)
 {
-  open(path);
+  openFrameSet(path);
 }
 
 FrameSet::~FrameSet()
 {
-  if( _id >= 0 ) CloseFrameSet(_id);
+  if( _setId >= 0 ) CloseFrameSet(_id);
 }
 
-bool FrameSet::open( const std::string &path )
+bool FrameSet::openFrameSet( const std::string &path )
 {
   // Well isn't this ugly...
   auto chars = strdup( path.c_str() );
-  _id = OpenFrameSet( chars );
+  _setId = OpenFrameSet( chars );
   free(chars);
 
-  return (_id >= 0);
+  if (_setId < 0) {
+    return false;
+  }
+
+  // Also open it as a FrameSource
+  _id = FrameSourceFromFrameSet( _setId );
+
+  if( _id < 0) {
+    return false;
+  }
+
+  return true;
 }
 
 
