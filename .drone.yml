@@ -1,6 +1,6 @@
 workspace:
   base: /code
-  path: libvideoio-go
+  path: lsd-slam/libvideoio-go
 
 pipeline:
   build:
@@ -10,6 +10,6 @@ pipeline:
     pull:  true
     commands:
       - apt-get update && apt-get install -y golang-go
+      - ./fips fetch
       - ./fips set config linux-make-unittest
-      - ./fips update
       - ./fips build
