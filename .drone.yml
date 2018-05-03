@@ -1,5 +1,6 @@
 workspace:
   base: /code
+  path: libvideoio-go
 
 pipeline:
   build:
@@ -8,6 +9,7 @@ pipeline:
     image: amarburg/lsdslam-dev-host:latest
     pull:  true
     commands:
-          - apt-get update && apt-get install -y golang-go
-          - ./fips set config linux-make-unittest
-          - ./fips build
+      - apt-get update && apt-get install -y golang-go
+      - ./fips set config linux-make-unittest
+      - ./fips update
+      - ./fips build
