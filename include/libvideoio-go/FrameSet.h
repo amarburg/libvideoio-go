@@ -5,7 +5,7 @@
 #include <g3log/g3log.hpp>
 
 #include "libvideoio-go/GoSource.h"
-#include "liblazyquicktime.h"
+#include "libmovieset.h"
 
 namespace libvideoio {
 

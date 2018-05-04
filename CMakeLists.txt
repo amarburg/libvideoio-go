@@ -60,21 +60,21 @@ find_package(OpenCV COMPONENTS ${OPENCV_COMPONENTS} REQUIRED)
 
 # Find the Go library
 set( GOPATH $ENV{GOPATH} )
-set( GOLIB_PATH ${GOPATH}/src/github.com/amarburg/cgo-lazyquicktime )
+set( GOLIB_PATH ${GOPATH}/src/github.com/amarburg/cgo-movieset )
 
 # ## Set global include paths
 fips_include_directories(
  	${CMAKE_CURRENT_SOURCE_DIR}/include
 	${CMAKE_CURRENT_SOURCE_DIR}/thirdparty
-	$ENV{GOPATH}/src/github.com/amarburg/cgo-lazyquicktime
+	$ENV{GOPATH}/src/github.com/amarburg/cgo-movieset
 )
 
 link_directories(
-	$ENV{GOPATH}/src/github.com/amarburg/cgo-lazyquicktime
+	$ENV{GOPATH}/src/github.com/amarburg/cgo-movieset
 )
 
-set( GO_HEADER  ${GOLIB_PATH}/liblazyquicktime.h )
-set( GO_LIBRARY ${GOLIB_PATH}/liblazyquicktime.so )
+set( GO_HEADER  ${GOLIB_PATH}/libmovieset.h )
+set( GO_LIBRARY ${GOLIB_PATH}/libmovieset.so )
 
 message( ${GO_HEADER} )
 
@@ -83,11 +83,11 @@ message( ${GO_HEADER} )
 add_custom_command(
 	OUTPUT ${GO_LIBRARY}
   PRE_BUILD
-	COMMAND go get github.com/amarburg/cgo-lazyquicktime
-	COMMAND cd ${GOPATH}/src/github.com/amarburg/cgo-lazyquicktime/ && make
+	COMMAND go get github.com/amarburg/cgo-movieset
+	COMMAND cd ${GOPATH}/src/github.com/amarburg/cgo-movieset/ && make
 )
 
-add_custom_target(liblazyquicktime
+add_custom_target(libmovieset
   DEPENDS ${GO_LIBRARY}
 )
 

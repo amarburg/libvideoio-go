@@ -26,7 +26,7 @@ GoSource::GoSource( const std::string &path )
 GoSource::~GoSource()
 {
   if( _id >= 0 ) {
-    CloseFrameSource(_id);
+    CloseSequential(_id);
   }
 
 }
@@ -35,7 +35,7 @@ bool GoSource::open( const std::string &path )
 {
   // Well isn't this ugly..
   auto chars = strdup( path.c_str() );
-  _id = OpenFrameSource( chars );
+  _id = OpenSequential( chars );
   free(chars);
 
   return (_id >= 0);
@@ -58,7 +58,7 @@ int GoSource::frameNum( void ) const {
 }
 
 bool GoSource::grab( void ) {
-   if( (_latestFrameNum = FrameSourceNext( _id, &_buffer )) > 0 ) {
+   if( (_latestFrameNum = SequentialNext( _id, &_buffer )) > 0 ) {
     cv::Mat mat( _buffer.height, _buffer.width, CV_MAKETYPE(_buffer.depth, _buffer.channels), _buffer.data );
 
     // Doing this a priori now ... need to make it configurable (?)_

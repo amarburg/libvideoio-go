@@ -8,7 +8,7 @@
 namespace fs = boost::filesystem;
 
 #include "libvideoio/DataSource.h"
-#include "liblazyquicktime.h"
+#include "libmovieset.h"
 
 namespace libvideoio {
 
