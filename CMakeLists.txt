@@ -75,7 +75,6 @@ link_directories(
 
 set( GO_HEADER  ${GOLIB_PATH}/libmovieset.h )
 set( GO_LIBRARY ${GOLIB_PATH}/libmovieset.so )
-
 message( ${GO_HEADER} )
 
 
