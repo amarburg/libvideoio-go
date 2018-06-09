@@ -1,7 +1,7 @@
 imports:
     fips-googletest:
         git: https://github.com/amarburg/fips-googletest.git
-    videoio:
+    libvideoio:
         git: https://github.com/amarburg/libvideoio.git
 
 exports:
