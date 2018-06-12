@@ -5,64 +5,69 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
-#include <CLI11.hpp>
+#include <libg3logger/g3logger.h>
+
+#include <CLI/CLI.hpp>
 
 using namespace std;
 
+#include "libvideoio/Undistorter.h"
+
 #include "libvideoio-go/GoSource.h"
 using namespace libvideoio;
-
 
 
 using cv::Mat;
 
 int main( int argc, char **argv )
 {
-  // // Declare the supported options.
-  // po::options_description desc("Allowed options");
-  // desc.add_options()
-  //     ("help", "produce help message")
-  //     ("input-file", po::value<string>(), "Name of input file");
-  //
-  // po::positional_options_description p;
-  // p.add("input-file", -1);
-  //
-  // po::variables_map vm;
-  // po::store(po::command_line_parser(argc, argv).
-  //         options(desc).positional(p).run(), vm);
-  // po::notify(vm);
+  libg3log::G3Logger logWorker( argv[0] );
+  logWorker.logBanner();
 
   CLI::App app{"Sample Mov player"};
 
-  std::string inputFile = "default";
-  app.add_option("input-file", inputFile, "Movie file to open");
+  fs::path inputFile;
+  app.add_option("input,--input", inputFile, "Movie file to open")->required()->check(CLI::ExistingFile);
+
+  fs::path calibFile;
+  auto flag_calib = app.add_option("-c,--calib", calibFile, "Calibration file" )->expected(1)->check(CLI::ExistingFile);
+
+  app.set_config("--config");
 
   CLI11_PARSE(app, argc, argv);
 
-  //
-  // if (vm.count("help")) {
-  //     cout << desc << endl;
-  //     return 1;
-  // }
-  //
-  // if (vm.count("input-file") != 1 ) {
-  //     cout << "Program takes exactly one input file" << endl;
-  //     return 1;
-  // }
+  std::shared_ptr<Undistorter> undistorter;
+
+  if( *flag_calib) {
+    // Make undistorter
+    undistorter.reset( UndistorterFactory::getUndistorterFromFile( calibFile.string() ) );
+    if( !undistorter or !undistorter->isValid() ) {
+      LOG(FATAL) << "Unable to load calibration file \"" << calibFile << "\"";
+    }
+  }
 
   cout << "Opening input file: " << inputFile << endl;
 
-  GoSource src( inputFile );
+  shared_ptr<GoSource> src( new GoSource(inputFile.string()) );
+  src->setOutputType( CV_8UC3 );
 
   Mat img;
   int count = 0;
-  while( src.grab() && count < 200 ) {
-    if( src.getImage( 0, img ) == 0 ) {
+  while( src->grab() && count < 200 ) {
+    if( src->getImage( img ) >= 0 ) {
+
       cv::imshow("Window", img);
-      cv::waitKey(1);
+
+      if( undistorter ) {
+        Mat undistorted;
+        undistorter->undistort( img, undistorted );
+
+        cv::imshow("Undistorted", undistorted );
+      }
+      cv::waitKey(100);
     }
 
-      count++;
+    count++;
   }
 
   return 0;

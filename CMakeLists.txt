@@ -6,8 +6,8 @@ if( NOT FIPS_IMPORT )
 	fips_setup(PROJECT libvideoio-go)
 endif()
 
-
 find_package( Boost COMPONENTS system REQUIRED)
+find_package( Eigen3 REQUIRED )
 
 # C++ flags applied to all builds
 # squelch int-in-bool-context warnings from eigen
@@ -17,7 +17,6 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set( OPENCV_COMPONENTS core imgproc )
 find_package(OpenCV COMPONENTS ${OPENCV_COMPONENTS} REQUIRED)
 
-
 # Find the Go library
 set( GOPATH $ENV{GOPATH} )
 set( GOLIB_PATH ${GOPATH}/src/github.com/amarburg/cgo-movieset )
@@ -25,8 +24,8 @@ set( GOLIB_PATH ${GOPATH}/src/github.com/amarburg/cgo-movieset )
 # ## Set global include paths
 fips_include_directories(
  	${CMAKE_CURRENT_SOURCE_DIR}/include
-	${CMAKE_CURRENT_SOURCE_DIR}/thirdparty
 	$ENV{GOPATH}/src/github.com/amarburg/cgo-movieset
+	${EIGEN3_INCLUDE_DIR}
 )
 
 link_directories(
@@ -49,13 +48,6 @@ add_custom_command(
 add_custom_target(libmovieset
   DEPENDS ${GO_LIBRARY}
 )
-
-
-# 	${CMAKE_CURRENT_SOURCE_DIR}/third_party
-#   ${OpenCV_INCLUDE_DIRS}
-# 	${TINYXML2_INCLUDE_DIR}
-# 	${EIGEN3_INCLUDE_DIR} )
-# include_directories( ${VIDEOIO_INCLUDE_DIRS}
 
 fips_add_subdirectory("lib/")
 
