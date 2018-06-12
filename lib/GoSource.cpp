@@ -11,13 +11,15 @@ using std::string;
 
 
 GoSource::GoSource( void )
-: _id(-1),
+: ImageSource(),
+  _id(-1),
   _latestFrameNum(-1)
 {
 }
 
 GoSource::GoSource( const std::string &path )
-: _id(-1),
+: ImageSource(),
+  _id(-1),
   _latestFrameNum(-1)
 {
   open(path);
@@ -68,28 +70,10 @@ bool GoSource::grab( void ) {
   return false;
 }
 
-int GoSource::getImage( int i, cv::Mat &mat ) {
-    // Only left image is available at present
+int GoSource::getRawImage( int i, cv::Mat &mat ) {
+    // Only left
     if( i == 0 ) {
       mat = _latest;
-
-      if( _fmt < 0 ) {
-        cv::cvtColor( _latest, mat, cv::COLOR_BGRA2RGBA );
-
-      } else {
-          // if
-          auto fmtChannels = ((_fmt & ~CV_MAT_DEPTH_MASK) >> CV_CN_SHIFT) + 1;
-
-          if( fmtChannels == 3 ) {
-            // Doing this a priori now ... need to make it configurable (?)_
-            cv::cvtColor( _latest, mat, cv::COLOR_BGR2RGB );
-          } else if( fmtChannels == 1 ) {
-            cv::Mat tmp;
-            cv::cvtColor( _latest, tmp, cv::COLOR_BGR2GRAY, 1 );
-            tmp.convertTo( mat, _fmt );
-          }
-        }
-
       return frameNum();
     }
 

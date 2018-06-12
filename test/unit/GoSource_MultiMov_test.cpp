@@ -40,7 +40,7 @@ TEST( MultiMovGoSource, FrameSetWithFormat ) {
 
   GoSource src( TEST_MULTIMOV_PATH );
 
-  src.setOutputFormat( CV_8UC1 );
+  src.setOutputType( CV_8UC1 );
 
   ASSERT_TRUE( src.isOpened() );
 

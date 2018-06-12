@@ -11,7 +11,7 @@ find_package( Boost COMPONENTS system REQUIRED)
 
 # C++ flags applied to all builds
 # squelch int-in-bool-context warnings from eigen
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-int-in-bool-context")
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 ## Configure OpenCV ##
 set( OPENCV_COMPONENTS core imgproc )

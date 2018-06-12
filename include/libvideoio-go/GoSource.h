@@ -7,12 +7,12 @@
 #include <boost/filesystem.hpp>
 namespace fs = boost::filesystem;
 
-#include "libvideoio/DataSource.h"
+#include "libvideoio/ImageSource.h"
 #include "libmovieset.h"
 
 namespace libvideoio {
 
-class GoSource : public DataSource {
+class GoSource : public ImageSource {
 public:
 
   GoSource( );
@@ -28,11 +28,14 @@ public:
 
   virtual bool grab( void );
 
-  virtual int getImage( int i, cv::Mat &mat );
+  virtual int getRawImage( int i, cv::Mat &mat );
 
   virtual ImageSize imageSize( void ) const;
 
   bool isOpened() const;
+
+  virtual int cvtToRGB() { return cv::COLOR_BGRA2RGB; }
+  virtual int cvtToGray() { return cv::COLOR_BGRA2GRAY; }
 
 protected:
 

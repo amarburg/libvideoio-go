@@ -32,7 +32,7 @@ TEST( FrameSetGoSource, LoadFrameSet ) {
 
   ASSERT_EQ( img.size().width, 1920 );
   ASSERT_EQ( img.size().height, 1080 );
-  ASSERT_EQ( img.channels(), 3 );
+  ASSERT_EQ( img.channels(), 4 );
 
   ASSERT_EQ( src.getImage(-1, img), -1 );
 
