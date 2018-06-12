@@ -60,9 +60,8 @@ int GoSource::frameNum( void ) const {
 bool GoSource::grab( void ) {
    if( (_latestFrameNum = SequentialNext( _id, &_buffer )) > 0 ) {
     cv::Mat mat( _buffer.height, _buffer.width, CV_MAKETYPE(_buffer.depth, _buffer.channels), _buffer.data );
+    _latest = mat;
 
-    // Doing this a priori now ... need to make it configurable (?)_
-    cv::cvtColor( mat, _latest, cv::COLOR_BGR2RGB );
     return true;
   }
 
@@ -70,10 +69,27 @@ bool GoSource::grab( void ) {
 }
 
 int GoSource::getImage( int i, cv::Mat &mat ) {
-    // Only left
+    // Only left image is available at present
     if( i == 0 ) {
-      //
       mat = _latest;
+
+      if( _fmt < 0 ) {
+        cv::cvtColor( _latest, mat, cv::COLOR_BGRA2RGBA );
+
+      } else {
+          // if
+          auto fmtChannels = ((_fmt & ~CV_MAT_DEPTH_MASK) >> CV_CN_SHIFT) + 1;
+
+          if( fmtChannels == 3 ) {
+            // Doing this a priori now ... need to make it configurable (?)_
+            cv::cvtColor( _latest, mat, cv::COLOR_BGR2RGB );
+          } else if( fmtChannels == 1 ) {
+            cv::Mat tmp;
+            cv::cvtColor( _latest, tmp, cv::COLOR_BGR2GRAY, 1 );
+            tmp.convertTo( mat, _fmt );
+          }
+        }
+
       return frameNum();
     }
 

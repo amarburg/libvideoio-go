@@ -29,10 +29,39 @@ TEST( MultiMovGoSource, LoadFrameSet ) {
 
   ASSERT_EQ( img.size().width, 1920 );
   ASSERT_EQ( img.size().height, 1080 );
-  ASSERT_EQ( img.channels(), 3 );
+  ASSERT_EQ( img.channels(), 4 );
+  ASSERT_EQ( img.type(), CV_8UC4 );
 
   ASSERT_EQ( src.getImage(-1, img), -1 );
 
 }
+
+TEST( MultiMovGoSource, FrameSetWithFormat ) {
+
+  GoSource src( TEST_MULTIMOV_PATH );
+
+  src.setOutputFormat( CV_8UC1 );
+
+  ASSERT_TRUE( src.isOpened() );
+
+  // Expected values before reading a frame
+  ASSERT_EQ( src.numFrames(), -1 );
+  ASSERT_EQ( src.frameNum(), -1 );
+
+  // Grab one frame
+  ASSERT_TRUE(src.grab());
+
+  cv::Mat img;
+  ASSERT_EQ( src.getImage(0, img), 1 );
+
+  ASSERT_EQ( img.size().width, 1920 );
+  ASSERT_EQ( img.size().height, 1080 );
+  ASSERT_EQ( img.channels(), 1 );
+  ASSERT_EQ( img.type(), CV_8UC1 );
+
+  ASSERT_EQ( src.getImage(-1, img), -1 );
+
+}
+
 
 }
