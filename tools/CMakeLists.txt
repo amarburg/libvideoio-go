@@ -1,6 +1,4 @@
 
-find_package( Boost REQUIRED program_options )
-
 fips_begin_app( player cmdline )
   fips_files(
     Player.cpp
