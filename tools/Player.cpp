@@ -59,7 +59,7 @@ int main( int argc, char **argv )
   while( src->grab() && count < 200 ) {
     if( src->getImage( img ) >= 0 ) {
 
-      cv::imshow("Window", img);
+      cv::imshow("Raw", img);
 
       if( undistorter ) {
         Mat undistorted;
