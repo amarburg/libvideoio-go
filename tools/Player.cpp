@@ -24,7 +24,10 @@ int main( int argc, char **argv )
   libg3log::G3Logger logWorker( argv[0] );
   logWorker.logBanner();
 
-  CLI::App app{"Sample Mov player"};
+  CLI::App app{"GoSource player"};
+
+  bool verbose;
+  app.add_flag("-v,--verbose", verbose, "Print DEBUG output to console");
 
   fs::path inputFile;
   app.add_option("input,--input", inputFile, "Movie file to open")->required()->check(CLI::ExistingFile);
