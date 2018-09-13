@@ -21,7 +21,7 @@ using cv::Mat;
 
 int main( int argc, char **argv )
 {
-  libg3log::G3Logger logWorker( argv[0] );
+  libg3logger::G3Logger logWorker( argv[0] );
   logWorker.logBanner();
 
   CLI::App app{"GoSource player"};
