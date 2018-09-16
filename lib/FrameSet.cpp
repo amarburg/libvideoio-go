@@ -14,7 +14,7 @@ FrameSet::FrameSet( void )
 {
 }
 
-FrameSet::FrameSet( const std::string &path )
+FrameSet::FrameSet( const string &path )
   : GoSource(), _setId(-1)
 {
   openFrameSet(path);
@@ -25,7 +25,7 @@ FrameSet::~FrameSet()
   if( _setId >= 0 ) CloseFrameSet(_id);
 }
 
-bool FrameSet::openFrameSet( const std::string &path )
+bool FrameSet::openFrameSet( const string &path )
 {
   // Well isn't this ugly...
   auto chars = strdup( path.c_str() );
@@ -36,15 +36,32 @@ bool FrameSet::openFrameSet( const std::string &path )
     return false;
   }
 
-  // Also open it as a FrameSource
-  _id = FrameSourceFromFrameSet( _setId );
-
-  if( _id < 0) {
-    return false;
-  }
+  // Also open it as a CGO FrameSource
+  _id = FrameSetToSequential( _setId );
+  
+  if( _id < 0) return false;
 
   return true;
 }
+
+
+bool FrameSet::openChunk( const string &name )
+{
+  auto chars = strdup( name.c_str() );
+  auto newId = OpenFrameSetChunk( _setId, chars );
+  free(chars);
+
+  if( newId < 0 ) {
+    return false;
+  }
+
+  CloseSequential(_id);
+
+  _id = newId;
+  return true;
+}
+
+
 
 
 }

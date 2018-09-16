@@ -18,6 +18,7 @@ public:
   ~FrameSet();
   bool openFrameSet( const std::string &path );
 
+  bool openChunk(const std::string &name);
 
 protected:
 
