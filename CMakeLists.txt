@@ -24,7 +24,7 @@ set( GOLIB_PATH ${GOPATH}/src/github.com/amarburg/cgo-movieset )
 # ## Set global include paths
 fips_include_directories(
  	${CMAKE_CURRENT_SOURCE_DIR}/include
-	$ENV{GOPATH}/src/github.com/amarburg/cgo-movieset
+	${GOLIB_PATH}
 	${EIGEN3_INCLUDE_DIR}
 )
 
