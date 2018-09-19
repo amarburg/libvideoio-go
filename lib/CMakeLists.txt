@@ -1,5 +1,4 @@
 
-
 fips_begin_module( videoio_go )
 
   fips_files(
@@ -14,4 +13,14 @@ fips_begin_module( videoio_go )
 
 fips_end_module()
 
-add_dependencies(videoio_go libmovieset)
+
+## Custom targets to build Golang extension
+add_custom_command(
+	TARGET videoio_go
+	#OUTPUT ${GO_LIBRARY}
+  PRE_BUILD
+	COMMAND go get github.com/amarburg/cgo-movieset
+	COMMAND cd ${GOPATH}/src/github.com/amarburg/cgo-movieset/ && make
+)
+
+# add_dependencies(videoio_go libmovieset)

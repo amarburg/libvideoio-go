@@ -36,18 +36,9 @@ set( GO_HEADER  ${GOLIB_PATH}/libmovieset.h )
 set( GO_LIBRARY ${GOLIB_PATH}/libmovieset.so )
 message( ${GO_HEADER} )
 
-
-## Custom targets to build Golang extension
-add_custom_command(
-	OUTPUT ${GO_LIBRARY}
-  PRE_BUILD
-	COMMAND go get github.com/amarburg/cgo-movieset
-	COMMAND cd ${GOPATH}/src/github.com/amarburg/cgo-movieset/ && make
-)
-
-add_custom_target(libmovieset
-  DEPENDS ${GO_LIBRARY}
-)
+# add_custom_target(libmovieset
+#   DEPENDS ${GO_LIBRARY}
+# )
 
 fips_add_subdirectory("lib/")
 
