@@ -26,6 +26,8 @@ public:
 
   virtual int frameNum( void ) const;
 
+  void setSkip( int skip ) { _skip = skip; }
+
   virtual bool grab( void );
 
   virtual int getRawImage( int i, cv::Mat &mat );
@@ -45,6 +47,7 @@ protected:
   cv::Mat _latest;
 
   int _latestFrameNum;
+  int _skip;
 
 };
 

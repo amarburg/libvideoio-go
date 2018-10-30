@@ -13,14 +13,16 @@ using std::string;
 GoSource::GoSource( void )
 : ImageSource(),
   _id(-1),
-  _latestFrameNum(-1)
+  _latestFrameNum(-1),
+  _skip(-1)
 {
 }
 
 GoSource::GoSource( const std::string &path )
 : ImageSource(),
   _id(-1),
-  _latestFrameNum(-1)
+  _latestFrameNum(-1),
+  _skip(-1)
 {
   open(path);
 }
@@ -63,6 +65,11 @@ bool GoSource::grab( void ) {
    if( (_latestFrameNum = SequentialNext( _id, &_buffer )) > 0 ) {
     cv::Mat mat( _buffer.height, _buffer.width, CV_MAKETYPE(_buffer.depth, _buffer.channels), _buffer.data );
     _latest = mat;
+
+    if( _skip > 0 ) {
+      ImageBuffer tempImg;
+      for( int i = 0; (i < _skip) && (SequentialNext( _id, &tempImg ) > 0) ; ++i ) {;}
+    }
 
     return true;
   }
