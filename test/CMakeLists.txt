@@ -1,6 +1,6 @@
 
 ## Load the test data in Go
-add_custom_target(videoio_go_testdata
+add_custom_target(videoio-go-testdata
   COMMAND go get -d github.com/amarburg/go-lazyfs-testfiles
 )
 

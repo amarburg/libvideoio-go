@@ -8,7 +8,7 @@ exports:
   header-dirs:
     - include/
   modules:
-    videoio_go: .
+    videoio-go: .
 
 defines:
   FIPS_EXCEPTIONS: ON
